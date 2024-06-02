@@ -1,0 +1,22 @@
+{
+    debug
+}
+
+:443 {
+    root * /www/public
+
+    @phpFiles path_regexp phpPath ^/(.*\.php)$
+    rewrite @phpFiles /{http.matchers.path_regexp.phpPath.1}
+
+    @notFile {
+        not file
+    }
+    rewrite @notFile /index.php?s={path}
+
+    php_fastcgi unix//tmp/php-cgi.sock {
+        index index.php
+    }
+    file_server
+
+    tls /cert/fullchain.pem /cert/privkey.pem
+}

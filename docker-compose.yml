@@ -1,0 +1,15 @@
+version: '3'
+services:
+  www:
+    image: ghcr.io/letright/dnsmgr:latest 
+    container_name: dnsmgr
+    volumes:
+      - './www:/www'
+      - './wwwlogs:/wwwlogs'
+      - './Caddyfile:/run/caddy/Caddyfile'
+      - './supervisord.conf:/etc/supervisor/supervisord.conf'
+      - './crontabs.conf:/etc/crontabs/root'
+      - './cert:/cert'
+    ports:
+    - "127.0.0.1:20443:443"
+    restart: always
